@@ -1,0 +1,115 @@
+/* src/main/resources/static/css/client-favorites-styles.css */
+
+/* Ensure main content area has spacing */
+/* .main-content style is in common.css */
+
+
+/* Property card styling for favorites list - overrides/adjustments from common property-card */
+/* Using the base .card style from common.css and adding favorites-specific overrides */
+
+.property-card {
+    /* Inherits most styles from common.css .card */
+    /* Add any favorites-list specific card styles if needed */
+}
+
+.property-card .property-img img { /* Specific image size for the favorites list */
+    height: 200px; /* Maintain consistent image height */
+    width: 100%; /* Ensure image takes full width */
+    object-fit: cover;
+    border-top-left-radius: var(--border-radius); /* Match card border radius from common */
+    border-top-right-radius: var(--border-radius); /* Match card border radius from common */
+}
+
+.property-card .card-body {
+    /* Inherits padding from common.css .card-body */
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column;
+}
+
+.property-card .card-title {
+    /* Inherits style from common.css */
+    font-size: 1.1rem; /* Keep the size from the original HTML */
+}
+
+.property-card .card-subtitle {
+    /* Inherits style from common.css text-muted or add specific style */
+    font-size: 0.9em; /* Keep the size from the original HTML */
+    color: var(--text-color-muted); /* Use common variable */
+}
+
+.property-card .card-text.small { /* Style for description snippet */
+    font-size: 0.9em; /* Keep the size from the original HTML */
+    color: var(--text-color-dark); /* Use common variable for text */
+    flex-grow: 1; /* Allows description to take up space */
+}
+
+.property-card .text-price { /* Custom class for price - specific size for favorites */
+    color: #2ecc71 !important; /* Green color for price */
+    font-weight: bold;
+    font-size: 1.25rem; /* Keep the size from the original HTML */
+}
+
+/* Property Features in card body (Bed, Bath, SqFt) */
+.property-card .property-features {
+    display: flex;
+    justify-content: space-around; /* Distribute features evenly */
+    align-items: center;
+    color: var(--text-color-muted); /* Use common variable */
+    font-size: 0.9rem; /* Match font size */
+    margin-top: 0.5rem; /* Adjust margin */
+    margin-bottom: 0.5rem; /* Adjust margin */
+    padding-top: 0.5rem; /* Add padding top */
+    border-top: 1px solid rgba(189, 195, 199, 0.3); /* Subtle separator */
+}
+.property-card .property-features i {
+    color: var(--secondary-navy); /* Use secondary navy for icons */
+    margin-right: 0.25rem; /* Reduce margin next to icon */
+}
+
+
+.property-card .card-footer {
+    /* Inherits style from common.css .card-footer */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem; /* Match common card body padding */
+}
+
+
+/* Empty state styling overrides/adjustments */
+.empty-state {
+    /* Inherits base style from common.css */
+}
+.empty-state i {
+    /* Override icon size for the empty state on this page */
+    font-size: 4rem; /* Match fa-4x equivalent */
+    color: var(--secondary-navy) !important; /* Ensure color is secondary navy */
+}
+.empty-state h5 {
+    /* Inherit h5 style from common or add specific */
+    color: var(--secondary-navy); /* Use secondary navy for heading */
+    font-weight: 600;
+}
+.empty-state p {
+    /* Inherit p style from common or add specific */
+    color: var(--text-color-muted); /* Use muted color */
+}
+
+/* Style for the 'Remove from Favorites' button icon */
+/* Using the common .btn-outline-danger style for the button */
+/* The specific heart-broken icon color should be handled by the common text-danger class */
+/* .fa-heart-broken.text-danger { color: #e74c3c !important; } - This should be in common.css if used generally */
+
+
+/* Text styles within property card body - ensure consistency */
+.property-card .card-body .card-text {
+    color: var(--text-color-dark); /* Default text color */
+}
+.property-card .card-body .text-muted { /* Specific styling for muted text */
+    font-size: 0.9em;
+}
+
+/* Ensure common text-danger is used for error messages */
+.text-danger {
+    color: #e74c3c !important;
+}

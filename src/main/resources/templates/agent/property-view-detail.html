@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${property != null ? property.address : 'Property Details'}">Property Details</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <link th:href="@{/css/common.css}" rel="stylesheet">
+
+  <style>
+
+
+    /* Navbar Logout Button Override (from original embedded CSS) */
+    .navbar-theme .btn.nav-link {
+      color: var(--text-color-light); /* Ensure logout text is light */
+      padding: 0.5rem 1rem; /* Restore nav link padding */
+      border: none; /* Added from original inline style */
+      background: none; /* Added from original inline style */
+    }
+    .navbar-theme .btn.nav-link:hover {
+      color: var(--accent-blue); /* Accent color on hover */
+      background-color: rgba(255, 255, 255, 0.1); /* Consistent hover background */
+    }
+
+
+    /* Property Detail Image */
+    .property-image-detail {
+      max-height: 500px;
+      width: 100%;
+      object-fit: cover;
+      border-radius: var(--border-radius) !important; /* Apply border-radius, use !important to override Bootstrap .rounded */
+      box-shadow: var(--shadow-subtle); /* Subtle shadow on image */
+    }
+
+
+    /* Breadcrumb Styling (from original embedded CSS) */
+    .breadcrumb {
+      --bs-breadcrumb-padding-x: 0;
+      --bs-breadcrumb-padding-y: 0;
+      --bs-breadcrumb-margin-bottom: 1.5rem; /* More space below breadcrumb */
+      --bs-breadcrumb-bg: none;
+      --bs-breadcrumb-border-radius: ;
+      --bs-breadcrumb-divider-color: var(--text-color-muted); /* Muted divider */
+      --bs-breadcrumb-disabled-color: var(--text-color-muted);
+      display: flex;
+      flex-wrap: wrap;
+      padding: var(--bs-breadcrumb-padding-y) var(--bs-breadcrumb-padding-x);
+      margin-bottom: var(--bs-breadcrumb-margin-bottom);
+      font-size: 0.9rem; /* Smaller font size */
+      list-style: none;
+      background-color: var(--bs-breadcrumb-bg);
+      border-radius: var(--bs-breadcrumb-border-radius);
+    }
+    .breadcrumb-item a {
+      color: var(--primary-navy); /* Use primary navy for links in breadcrumb */
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .breadcrumb-item a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-item.active {
+      color: var(--text-color-dark); /* Dark text for the active item */
+      font-weight: 500;
+    }
+    .breadcrumb-item + .breadcrumb-item::before {
+      float: left;
+      padding-right: var(--bs-breadcrumb-divider-padding-x);
+      color: var(--bs-breadcrumb-divider-color);
+      content: var(--bs-breadcrumb-divider, "/");
+    }
+
+
+    /* Button Styling Overrides (from original embedded CSS) */
+    .btn {
+      border-radius: 6px; /* Slightly less rounded than common */
+      font-weight: 500; /* Different from common */
+      padding: 0.75rem 1.25rem; /* Different from common */
+      /* Keep transition, box-shadow, display flex/align/justify from common */
+    }
+
+    /* Outline primary button (Edit Listing) - Specific style/class name (from original embedded CSS) */
+    .btn-outline-primary {
+      color: var(--primary-navy);
+      border-color: var(--primary-navy);
+      border-radius: 6px; /* Match other buttons */
+      transition: all 0.3s ease;
+      font-weight: 500; /* Match other buttons */
+      padding: 0.75rem 1.25rem; /* Match other buttons */
+    }
+    .btn-outline-primary:hover {
+      color: var(--text-color-light);
+      background-color: var(--primary-navy);
+      border-color: var(--primary-navy);
+    }
+
+    /* Favorite button style (from original embedded CSS) */
+    .btn-favorite {
+      color: var(--accent-blue); /* Use accent blue for favorite icon */
+      border: none; /* No border */
+      background: none; /* No background */
+      padding: 0; /* No padding */
+      font-size: 1.5rem; /* Make icon larger */
+      transition: color 0.3s ease;
+    }
+
+    .btn-favorite:hover:not(:disabled) {
+      color: var(--secondary-navy); /* Darker color on hover */
+    }
+
+    .btn-favorite:disabled {
+      color: #95a5a6; /* Muted color when disabled */
+      opacity: 0.7;
+    }
+
+    /* Price text (from original embedded CSS) */
+    .text-price { /* Custom class for price */
+      color: #2ecc71 !important; /* Green color for price */
+      font-weight: bold;
+      font-size: 1.5rem; /* Larger font */
+      margin-bottom: 1rem; /* Space below price */
+    }
+
+
+    /* Icon Colors (from original embedded CSS) */
+    .fa-bed,
+    .fa-bath,
+    .fa-ruler-combined {
+      color: var(--secondary-navy); /* Secondary navy for feature icons */
+    }
+    .fa-fw { /* Ensure fixed width icons are styled */
+      color: var(--secondary-navy);
+    }
+
+
+    /* Property Status Badges (from original embedded CSS) */
+    .badge-status-sale, .badge-status-rent {
+      background-color: var(--accent-blue) !important; /* Use accent for sale/rent status */
+      color: var(--text-color-light);
+      /* Keep general badge padding/radius/font-size from common.css */
+    }
+    .badge-status-pending {
+      background-color: #f39c12 !important; /* Keep orange for pending */
+      color: var(--text-color-light);
+      /* Keep general badge padding/radius/font-size from common.css */
+    }
+    .badge-status-other {
+      background-color: #bdc3c7 !important; /* Keep grey for other */
+      color: var(--text-color-dark);
+      /* Keep general badge padding/radius/font-size from common.css */
+    }
+
+    /* Card Header H2 style (override for the main card title) */
+    .card-header-dashboard h2 {
+      font-size: 1.5rem; /* Match the original h2 size */
+      font-weight: 600; /* Match the original weight */
+      margin: 0; /* Remove default margin */
+      color: var(--text-color-dark); /* Use dark text */
+    }
+
+
+    /* Card in sidebar for details (from original embedded CSS) */
+    .card-sidebar .card-body {
+      padding: 1.5rem; /* Slight padding override */
+    }
+
+    /* Keep standard red for error messages and required indicators */
+    .text-danger {
+      color: #e74c3c !important;
+    }
+
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-theme navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/agent/dashboard}">
+      <i class="fas fa-home me-2"></i>Real Estate Agent Portal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/dashboard}">
+            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/profile}">
+            <i class="fas fa-user me-1"></i> Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/agent/properties}">
+            <i class="fas fa-building me-1"></i> Properties
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/availability}">
+            <i class="fas fa-calendar-alt me-1"></i> Availability
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/appointments}">
+            <i class="fas fa-calendar-check me-1"></i> Appointments
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown" th:if="${agent != null}">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-1"></i> <span th:text="${agent.fullName}">Agent Name</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" th:href="@{/agent/profile}"><i class="fas fa-id-card me-2"></i> My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" th:unless="${agent != null}">
+          <a class="nav-link" th:href="@{/login}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-content"> <div class="container mt-4"> <div th:if="${property == null}" class="alert alert-danger d-flex align-items-center" role="alert">
+  <i class="fas fa-exclamation-circle fs-4 me-3"></i> <div>
+  Property details could not be loaded or the property was not found.
+  <a th:href="@{/agent/properties}" class="alert-link">Return to My Properties</a>.
+</div>
+</div>
+
+  <div th:unless="${property == null}">
+    <div class="row mb-3">
+      <div class="col">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a th:href="@{/agent/properties}">My Properties</a></li>
+            <li class="breadcrumb-item active" aria-current="page" th:text="${property.address}">Property Address</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header-dashboard d-flex justify-content-between align-items-center"> <h2 class="mb-0" th:text="${property.address}">Property Address</h2> <a th:href="@{/agent/properties/edit/{id}(id=${property.propertyId})}" class="btn btn-sm btn-outline-primary">
+        <i class="fas fa-edit me-1"></i> Edit Listing
+      </a>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <img th:if="${property.imageUrl != null and !property.imageUrl.isEmpty()}" th:src="${property.imageUrl}" class="img-fluid property-image-detail mb-3" alt="Property Image">
+            <img th:unless="${property.imageUrl != null and !property.imageUrl.isEmpty()}" src="https://via.placeholder.com/800x450.png?text=Image+Not+Available" class="img-fluid property-image-detail mb-3" alt="No Image Available">
+
+            <h4>Description</h4>
+            <p th:text="${property.description}">Full property description.</p>
+          </div>
+          <div class="col-md-4">
+            <div class="card shadow-sm card-sidebar">
+              <div class="card-body">
+                <h4 class="mb-3 text-price" th:text="'LKR ' + ${#numbers.formatDecimal(property.price, 0, 'COMMA', 2, 'POINT')}">Price</h4>
+                <p><strong>Status:</strong>
+                  <span class="badge fs-6 ms-1"
+                        th:classappend="${property.status == T(com.sliit.realestate.models.Property.PropertyStatus).FOR_SALE ? 'badge-status-sale' : (property.status == T(com.sliit.realestate.models.Property.PropertyStatus).FOR_RENT ? 'badge-status-rent' : (property.status == T(com.sliit.realestate.models.Property.PropertyStatus).PENDING ? 'badge-status-pending' : (property.status == T(com.sliit.realestate.models.Property.PropertyStatus).CANCELLED ? 'badge-status-other' : 'badge-status-other')))}"
+                        th:text="${property.status}">Status</span>
+                </p>
+                <p><strong>Type:</strong> <span th:text="${property.type}">Property Type</span></p>
+                <hr>
+                <p><i class="fas fa-bed fa-fw me-2"></i> <strong th:text="${property.bedrooms}"></strong> Bedrooms</p>
+                <p><i class="fas fa-bath fa-fw me-2"></i> <strong th:text="${property.bathrooms}"></strong> Bathrooms</p>
+                <p><i class="fas fa-ruler-combined fa-fw me-2"></i> <strong th:text="${#numbers.formatDecimal(property.areaSqFt, 0, 'COMMA', 0, 'POINT')}"></strong> sq. ft.</p>
+                <hr>
+                <p class="text-muted small" th:text="'Listing ID: ' + ${property.propertyId}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer class="footer-theme">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h5>nestseeKr</h5>
+        <p>Your premier partner in real estate.</p>
+      </div>
+      <div class="footer-column">
+        <h5>Quick Links</h5>
+        <ul class="footer-links">
+          <li><a th:href="@{/agent/dashboard}">Dashboard</a></li>
+          <li><a th:href="@{/agent/properties}">My Properties</a></li>
+          <li><a th:href="@{/agent/profile}">My Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h5>Contact</h5>
+        <ul class="footer-links">
+          <li>info@nestseekr.lk</li>
+          <li>+94 11 222 3333</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 nestseeKr. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

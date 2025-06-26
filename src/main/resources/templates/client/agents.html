@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${(client != null ? client.fullName + ' - Dashboard' : 'Client Dashboard') + ' | nestseekr'}">Client Dashboard | nestseekr</title>  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <link th:href="@{/css/common.css}" rel="stylesheet">
+    <link th:href="@{/css/client-agents-styles.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-theme navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="${client != null ? '/client/dashboard' : '/'}">
+            <i class="fas fa-home me-2"></i>Real Estate Portal
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/dashboard}"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/profile}"><i class="fas fa-user me-1"></i>Profile</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/favorites}"><i class="fas fa-heart me-1"></i>Favorites</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link active" aria-current="page" th:href="@{/client/agents}"><i class="fas fa-user-tie me-1"></i>Agents</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/appointments}"><i class="fas fa-calendar-check me-1"></i>Appointments</a></li>
+                <li th:unless="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/properties}">Browse Properties</a> </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown" th:if="${client != null}"> <a class="nav-link dropdown-toggle" href="#" id="clientNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle me-1"></i> <span th:text="${client.fullName}">Client Name</span>
+                </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="clientNavbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/client/profile}"><i class="fas fa-id-card me-2"></i> My Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" th:unless="${client != null}">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="main-content"> <div class="container">
+
+    <div class="card shadow-sm"> <div class="card-header-dashboard"> <i class="fas fa-user-tie"></i><h5 class="mb-0 ms-2">Our Real Estate Agents</h5>
+    </div>
+        <div class="card-body"> <div class="row mb-4 align-items-center">
+            <div class="col-md-12">
+                <p class="lead">Connect with our top-rated agents to help you find your perfect property.</p>
+            </div>
+        </div>
+
+            <form th:action="@{/client/agents}" method="get" class="filter-card mb-4"> <h6 class="mb-3">Filter Agents</h6>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-6 col-lg-4">
+                        <label for="agentSearch" class="form-label"><i class="fas fa-search me-2"></i>Search by Name / Location:</label> <input type="text" class="form-control" placeholder="Enter name or location..." id="agentSearch" name="searchTerm" th:value="${param.searchTerm}"> </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label d-block mb-2"><i class="fas fa-star-half-alt me-2"></i>Minimum Rating:</label> <div class="form-check form-check-inline"> <input class="form-check-input" type="radio" name="minRating" id="ratingAny" value="" th:checked="${param.minRating == null or #strings.isEmpty(param.minRating)}"> <label class="form-check-label" for="ratingAny">Any</label> </div>
+                        <div class="form-check form-check-inline"> <input class="form-check-input" type="radio" name="minRating" id="rating4" value="4.0" th:checked="${param.minRating == '4.0'}"> <label class="form-check-label" for="rating4">4+</label> </div>
+                        <div class="form-check form-check-inline"> <input class="form-check-input" type="radio" name="minRating" id="rating3" value="3.0" th:checked="${param.minRating == '3.0'}"> <label class="form-check-label" for="rating3">3+</label> </div>
+                    </div>
+
+                    <div class="col-md-12 col-lg-4 d-grid d-md-block"> <button type="submit" class="btn btn-theme-primary"> <i class="fas fa-filter me-2"></i>Filter</button> <a th:if="${param.searchTerm != null and !#strings.isEmpty(param.searchTerm) or (param.minRating != null and !#strings.isEmpty(param.minRating))}" th:href="@{/client/agents}" class="btn btn-outline-secondary ms-md-2 mt-2 mt-md-0">Clear Filters</a> </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div th:if="${#lists.isEmpty(agents)}" class="col-12">
+                    <div class="alert alert-info text-center py-5" role="alert"> <i class="fas fa-user-slash fa-3x mb-3 text-muted"></i> <h5>No agents found matching your criteria.</h5> <p class="text-muted">Try adjusting your filters or check back later.</p> </div>
+                </div>
+                <div th:unless="${#lists.isEmpty(agents)}" th:each="agent : ${agents}" class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                    <div class="card h-100 agent-card shadow-sm"> <div class="card-header-dashboard d-flex justify-content-between align-items-center"> <h5 class="card-title mb-0" th:text="${agent.fullName}">Agent Name</h5> <div>
+                        <span class="badge bg-info" th:text="${agent.specialization}">Specialization</span> </div>
+                    </div>
+                        <div class="card-body d-flex flex-column"> <div class="d-flex mb-3">
+                            <div class="flex-shrink-0 me-3">
+                                <img src="https://via.placeholder.com/80" th:alt="${agent.fullName}" alt="Agent Placeholder"> </div>
+                            <div>
+                                <div class="mb-2">
+                                    <i class="fas fa-star text-warning"></i> <span th:text="${#numbers.formatDecimal(agent.averageRating, 1, 1)}">0.0</span>/5.0 <span class="text-muted small" th:text="'(' + ${agent.totalRatings} + ' ratings)'">(0 ratings)</span> </div>
+                                <div class="mb-1 small">
+                                    <i class="fas fa-map-marker-alt fa-fw me-1"></i> <span th:text="${agent.location}">Location</span> </div>
+                                <div class="small">
+                                    <i class="fas fa-id-card fa-fw me-1"></i> <span th:text="${'License #' + agent.licenseNumber}">License #</span> </div>
+                            </div>
+                        </div>
+                            <p class="card-text text-muted small flex-grow-1">Contact agent for more details.</p> <div class="mt-auto"> <p class="card-text small text-muted">Properties Managed: <span class="fw-bold" th:text="${#lists.size(agent.managedProperties)}">0</span></p> </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-center"> <a th:href="@{/client/agent/{id}(id=${agent.userId})}" class="btn btn-sm btn-outline-primary"> <i class="fas fa-user me-1"></i> View Profile & Book
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<footer class="footer-theme">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h5>nestseeKr</h5>
+                <p>Your premier partner in real estate.</p>
+            </div>
+            <div class="footer-column">
+                <h5>Quick Links</h5>
+                <ul class="footer-links">
+                    <li><a th:href="@{/client/dashboard}">Dashboard</a></li>
+                    <li><a th:href="@{/client/favorites}">Favorites</a></li>
+                    <li><a th:href="@{/client/profile}">My Profile</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Contact</h5>
+                <ul class="footer-links">
+                    <li>info@nestseekr.lk</li>
+                    <li>+94 11 222 3333</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 nestseeKr. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

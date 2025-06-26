@@ -1,0 +1,44 @@
+
+    /* src/main/resources/static/css/client-agents-styles.css */
+
+    /* Ensure main content area has spacing */
+    /* .main-content style is in common.css */
+
+    /* Agent Card Image */
+.agent-card img {
+    object-fit: cover;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%; /* Keep circular */
+    border: 3px solid var(--secondary-navy); /* Add a border */
+    padding: 2px; /* Space for border */
+    box-shadow: var(--shadow-subtle); /* Subtle shadow */
+}
+
+/* Agent Card Title (Agent Name) */
+.agent-card .card-title {
+    min-height: 48px; /* Maintain consistent height */
+    color: var(--primary-navy); /* Primary navy for agent name */
+    font-weight: 600;
+}
+
+/* Form Styling for Filter - Styled as a subtle card */
+.filter-card {
+    background-color: var(--white-bg); /* White background */
+    border-radius: var(--border-radius);
+    border: 1px solid var(--input-border);
+    padding: 1.5rem; /* Padding */
+    margin-bottom: 25px; /* Space below filter card */
+    box-shadow: var(--shadow-subtle); /* Subtle shadow */
+}
+
+/* Form Check Input overrides (Checkboxes/Radios in Filter) */
+.form-check-input {
+    padding: 0.4rem; /* Adjust padding for square inputs */
+    margin-top: 0.3rem; /* Align vertically with label */
+}
+
+/* Style for text colors within agent card */
+.agent-card .card-body .text-muted {
+    font-size: 0.9em; /* Keep the size from the original HTML */
+}

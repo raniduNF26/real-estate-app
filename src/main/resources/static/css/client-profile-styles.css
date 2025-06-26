@@ -1,0 +1,249 @@
+/* src/main/resources/static/css/client-profile-styles.css */
+
+/* Styles for the main content area of client profile page */
+/* .main-container style is replaced by common.css .main-content */
+
+/* Navbar Logout Button Override (from original embedded CSS) */
+.navbar-theme .btn.nav-link {
+    color: var(--text-color-light); /* Ensure logout text is light */
+    padding: 0.5rem 1rem; /* Restore nav link padding */
+    border: none; /* Remove default button border */
+    background: none; /* Remove default button background */
+    /* Added from original agent profile embedded CSS for consistency */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500; /* Match original client nav weight */
+    border-radius: 6px; /* Match original client nav radius */
+}
+.navbar-theme .btn.nav-link:hover {
+    color: var(--accent-blue); /* Accent color on hover */
+    background-color: rgba(255, 255, 255, 0.1); /* Consistent hover background */
+}
+
+
+/* Page header with animated border specific to this page's design */
+.page-header {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.75rem;
+}
+.page-header h4 { /* Or h1 if you changed it */
+    font-weight: 700;
+    color: var(--primary-navy); /* Using common variable */
+    margin-bottom: 0.25rem;
+}
+.page-header p {
+    color: var(--text-color-muted); /* Using common variable */
+    margin-bottom: 0;
+}
+.page-header:after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 3px;
+    background: var(--accent-blue); /* Using common variable */
+    bottom: 0;
+    left: 0;
+    animation: growLine 1s ease-out forwards; /* Define growLine animation below */
+}
+
+@keyframes growLine {
+    from { width: 0; }
+    to { width: 60px; }
+}
+
+/* Form section styling specific to profile page structure - Used for logical grouping within the main card */
+/* Note: The provided HTML doesn't use .form-section, but keeps the mb-4 class on rows */
+/* If you want the border/title structure, you would wrap form groups in <div class="form-section"> */
+/* Leaving these styles commented out as the HTML doesn't currently use them */
+/*
+.form-section {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(189, 195, 199, 0.3);
+}
+.form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.form-section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-navy);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.form-section-title i {
+    color: var(--accent-blue);
+}
+*/
+
+
+/* Activity Cards specific styling (if different from general cards) */
+.activity-card {
+    margin-top: 2.5rem; /* Space above the activity section */
+}
+
+.activity-card .card { /* Styles for the individual stat cards inside .activity-card */
+    height: 100%; /* Make cards fill height in grid */
+    border: 1px solid var(--input-border); /* Subtle border for inner cards */
+    box-shadow: var(--shadow-subtle); /* Subtle shadow for inner cards */
+    transition: transform 0.2s ease;
+    border-radius: var(--border-radius); /* Use common radius */
+    background-color: var(--white-bg); /* Use common white background */
+    overflow: hidden; /* Ensure content respects border-radius */
+}
+.activity-card .card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px; /* Slightly more pronounced shadow on hover */
+}
+
+.activity-card .card-body {
+    padding: 1.5rem; /* Consistent padding */
+    display: flex; /* Arrange content vertically */
+    flex-direction: column;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.activity-card .icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--accent-blue-light); /* Using common variable */
+    color: var(--secondary-navy); /* Using common variable */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-subtle); /* Using common variable */
+    transition: all 0.3s ease;
+}
+
+.activity-card .stat-card:hover .icon-circle {
+    background-color: var(--secondary-navy); /* Darker background on hover */
+    color: var(--text-color-light); /* Light text on hover */
+}
+
+/* Icon colors within activity cards (override Bootstrap's h1/display-4 defaults and common) */
+.activity-card .card-body h1 i.fas {
+    color: inherit; /* Inherit color from .icon-circle */
+    font-size: inherit; /* Inherit size from h1/display-4 */
+    margin-bottom: 0; /* Remove original margin */
+}
+
+
+.activity-card .stat-count {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-navy); /* Using common variable */
+    margin-top: 0.5rem; /* Space above count */
+    margin-bottom: 0.5rem; /* Space below count */
+}
+.activity-card .card-title { /* Override common card-title */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--secondary-navy); /* Using common variable */
+    margin-top: 0.5rem; /* Consistent margin */
+    margin-bottom: 0.5rem; /* Consistent margin */
+}
+.activity-card p.card-text { /* Override common card-text */
+    color: var(--text-color-muted); /* Use muted color */
+    font-size: 0.9rem; /* Smaller muted text */
+    margin-bottom: 1rem;
+}
+
+.activity-card .stat-card .btn { /* Override common button styles for activity card buttons */
+    margin-top: auto; /* Push button to bottom if card grows */
+    font-size: 0.9rem; /* Smaller button text */
+    padding: 0.5rem 1rem; /* Smaller button padding */
+    border-radius: 6px; /* Match smaller button radius */
+}
+/* Specific outline primary for activity card buttons */
+.activity-card .stat-card .btn-outline-primary {
+    color: var(--secondary-navy); /* Use secondary navy for outline */
+    border-color: var(--secondary-navy);
+}
+.activity-card .stat-card .btn-outline-primary:hover {
+    color: var(--text-color-light);
+    background-color: var(--secondary-navy);
+    border-color: var(--secondary-navy);
+}
+
+
+/* Modal Styling - specific overrides */
+.modal-content {
+    border-radius: var(--border-radius); /* Using common variable */
+    box-shadow: var(--shadow-card); /* Using common variable */
+    border: none; /* Remove default modal border */
+}
+.modal-header {
+    background-color: var(--secondary-navy); /* Using common variable */
+    color: var(--text-color-light); /* Using common variable */
+    border-top-left-radius: var(--border-radius); /* Match content radius */
+    border-top-right-radius: var(--border-radius);
+    border-bottom: 1px solid rgba(189, 195, 199, 0.3); /* Subtle border */
+    padding: 1rem 1.5rem;
+}
+.modal-header .modal-title {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.modal-header .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%); /* Make close icon light */
+    padding: 0.5rem; /* Adjust padding */
+    margin: -0.5rem -0.5rem -0.5rem auto; /* Adjust margin */
+}
+.modal-body {
+    color: var(--text-color-dark); /* Ensure text color is readable */
+    padding: 1.5rem;
+}
+.modal-footer {
+    border-top: 1px solid rgba(189, 195, 199, 0.3); /* Subtle border */
+    padding: 1rem 1.5rem;
+    background-color: var(--white-bg); /* Ensure footer has white background like body */
+    border-bottom-left-radius: var(--border-radius); /* Match content radius */
+    border-bottom-right-radius: var(--border-radius);
+}
+
+
+.help-tag {
+    display: inline-block;
+    background-color: var(--accent-blue-light); /* Using common variable */
+    color: var(--secondary-navy); /* Using common variable */
+    padding: 0.3em 0.75em;
+    border-radius: 4px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.help-tag strong {
+    font-weight: 600;
+    margin-right: 0.25rem;
+}
+
+
+/* Styles for icons within form labels - Specific to this page's form layout */
+.form-label i {
+    color: var(--secondary-navy); /* Use secondary navy for icons in labels */
+    margin-right: 0.5rem;
+}
+
+/* Icon color override in input group text for preferences help */
+/* The input group text background is secondary-navy, so icon needs to be light */
+.input-group-text i {
+    color: var(--text-color-light); /* Ensure icons in input group text are light */
+}
+
+/* Keep standard red for error messages and required indicators */
+.text-danger {
+    color: #e74c3c !important;
+}

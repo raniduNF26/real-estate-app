@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nestseeKr - Welcome</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link th:href="@{/css/landing-style.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg landing-navbar fixed-top" id="mainNavbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">nestseeKr</a> <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar"
+                                                                     aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse" id="publicNavbar">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/services}">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/contact}">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light ms-lg-2" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-light ms-lg-2" th:href="@{/register}">Register</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="container-fluid hero text-center"> <div class="hero-content"> <p class="hero-tagline">Your Portal to Premier Properties</p>
+    <h1 class="hero-title">Find Your Perfect Space <br>with <span class="hero-subtitle">Expert Agents</span></h1>
+    <p class="lead mb-4">Connecting clients and agents seamlessly for all your real estate needs.</p>
+    <a class="btn btn-primary btn-lg" th:href="@{/register}" role="button"> <i class="fas fa-user-plus me-1"></i> Register Now
+    </a>
+</div>
+</section>
+
+<section class="container middle-section">
+    <div class="divider">
+        <div class="divider-line"></div>
+        <div class="divider-icon">★</div>
+        <div class="divider-line"></div>
+    </div>
+    <div class="middle-text">
+        <h2 class="section-title">If you can <span class="section-subtitle">dream it</span>, we can <span class="section-subtitle">build it</span>.</h2>
+        <p class="section-description">
+            We adapt a uniquely personalized perspective to each project to deliver stunning spaces of optimal function.
+            Renowned for our architectural understanding and masterful craftsmanship, our portfolio of residential projects
+            showcases our commitment to excellence.
+        </p>
+        <a th:href="@{/contact}" class="btn btn-section-action">Get in touch</a> </div>
+</section>
+
+<section class="container property-showcase">
+    <h2 class="text-center section-title mb-5">Featured Properties</h2>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="property-image">
+                <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Modern home exterior">
+            </div>
+            <h5 class="text-center mt-2">Modern Family Home</h5>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="property-image">
+                <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" alt="Luxury home entrance">
+            </div>
+            <h5 class="text-center mt-2">Luxury Apartment View</h5>
+        </div>
+        <div class="text-center mt-3">
+            <a th:href="@{/properties}" class="btn btn-outline-primary btn-lg">Browse All Properties</a>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <section class="inclusions-section"> <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8 text-center">
+            <h2 class="inclusion-title">Connect with <span class="inclusion-subtitle">Top Agents</span></h2>
+            <p class="inclusion-description lead">
+                Our platform features verified agents ready to assist you. View profiles, check availability, and book appointments seamlessly.
+            </p>
+            <a th:href="@{/client/agents}" class="btn btn-light-outline">Find an Agent</a>
+        </div>
+    </div>
+    </section>
+</div>
+
+<footer class="main-footer"> <div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <div class="footer-brand">nestseeKr</div> <p>Creating exceptional living spaces with attention to detail and commitment to quality.</p>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+            <h5>Quick Links</h5>
+            <div class="footer-links">
+                <ul class="list-unstyled">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/properties}">Properties</a></li>
+                    <li><a th:href="@{/about}">About Us</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <li><a th:href="@{/login}">Login/Register</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h5>Connect With Us</h5>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="text-center footer-bottom">
+        &copy; 2025 nestseeKr. All rights reserved. </div>
+</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Optional: Add JavaScript for navbar background change on scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.getElementById('mainNavbar');
+        if (window.scrollY > 50) { // Adjust scroll threshold as needed
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+</body>
+</html>

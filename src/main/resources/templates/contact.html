@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Real Estate Portal</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link th:href="@{/css/landing-style.css}" rel="stylesheet">
+</head>
+<body class="landing-page">
+
+<nav class="navbar navbar-expand-lg navbar-landing navbar-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/}"><i class="fas fa-home me-1"></i> Real Estate Portal</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="publicNavbar">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" th:href="@{/}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/about}">About</a></li>
+        <li class="nav-item"><a class="nav-link" th:href="@{/services}">Services</a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" th:href="@{/contact}">Contact</a></li> <li class="nav-item"><a class="btn btn-outline-light ms-lg-2" th:href="@{/login}">Login</a></li>
+        <li class="nav-item"><a class="btn btn-light ms-lg-2" th:href="@{/register}">Register</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container" style="padding-top: 80px; padding-bottom: 80px;">
+  <div class="static-page-box">
+    <h1>Contact Us</h1>
+    <hr>
+    <p>Have questions or need assistance? Please reach out to us.</p>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <h5>Contact Information</h5>
+        <p><i class="fas fa-map-marker-alt fa-fw me-2"></i> 123 Real Estate Ave, Colombo, Sri Lanka</p>
+        <p><i class="fas fa-phone fa-fw me-2"></i> +94 11 222 3333</p>
+        <p><i class="fas fa-envelope fa-fw me-2"></i> info@realestateportal.lk</p>
+        <p><i class="fas fa-clock fa-fw me-2"></i> Mon - Fri: 9:00 AM - 5:00 PM</p>
+      </div>
+      <div class="col-md-6">
+        <h5>Send us a Message</h5>
+        <form action="#" method="post"> <div class="mb-3">
+          <label for="contactName" class="form-label">Your Name</label>
+          <input type="text" class="form-control" id="contactName" name="name" required>
+        </div>
+          <div class="mb-3">
+            <label for="contactEmail" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="contactEmail" name="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="contactMessage" class="form-label">Message</label>
+            <textarea class="form-control" id="contactMessage" name="message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" disabled>Send Message (Disabled)</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="py-3 landing-footer fixed-bottom">
+  <div class="container text-center"><p class="mb-0">&copy; 2025 Real Estate Portal. All rights reserved.</p></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

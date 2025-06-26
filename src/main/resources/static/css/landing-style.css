@@ -1,0 +1,358 @@
+/* src/main/resources/static/css/landing-style.css */
+/* src/main/resources/static/css/landing-style.css */
+:root {
+    --dark-blue: #0c2339;
+    --text-light: #ffffff;
+    --text-dark: #333333;
+    --accent-color: #3498db; /* Brighter blue from your previous theme */
+    --section-padding: 5rem 0;
+    --border-radius: 6px; /* Consistent border radius */
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: white;
+    color: var(--text-dark);
+    line-height: 1.6;
+    padding-top: 70px; /* Space for fixed-top navbar */
+}
+
+/* Navigation for Landing Page */
+.navbar.landing-navbar { /* Specific class for landing page navbar */
+    background-color: transparent; /* Will show hero image through it */
+    padding: 1rem 0; /* Adjusted padding slightly */
+    transition: background-color 0.3s ease-in-out;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1030;
+}
+
+/* Style for when navbar becomes sticky/scrolled */
+.navbar.landing-navbar.scrolled {
+    background-color: rgba(12, 35, 57, 0.95); /* Dark blue with slight transparency */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar.landing-navbar .navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--text-light); /* Ensure brand is light on transparent/dark bg */
+}
+
+.navbar.landing-navbar .nav-link {
+    color: rgba(255, 255, 255, 0.85); /* Light color for links */
+    font-weight: 500;
+    margin: 0 0.75rem;
+    transition: color 0.2s ease;
+}
+
+.navbar.landing-navbar .nav-link:hover,
+.navbar.landing-navbar .nav-link.active {
+    color: var(--text-light); /* Full white on hover/active */
+}
+
+.navbar.landing-navbar .btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.9);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+.navbar.landing-navbar .btn-outline-light:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--text-light);
+}
+.navbar.landing-navbar .btn-light { /* For Register button */
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    background-color: var(--text-light);
+    color: var(--dark-blue);
+    margin-left: 0.5rem;
+}
+.navbar.landing-navbar .btn-light:hover {
+    background-color: #f0f0f0; /* Slightly off-white hover */
+}
+
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(12, 35, 57, 0.5), rgba(12, 35, 57, 0.7)),
+    url('https://images.unsplash.com/photo-1600585154526-990dced4db0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'); /* Your chosen image */
+    background-size: cover;
+    background-position: center;
+    color: var(--text-light);
+    padding: 8rem 0; /* Adjusted padding */
+    min-height: 70vh; /* Ensure it takes significant height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 0 0 1rem 1rem; /* Rounded bottom corners */
+    margin: -70px 1rem 0 1rem; /* Pull up under transparent navbar, add side margin */
+}
+
+.hero-content {
+    padding: 2rem;
+    max-width: 700px; /* Control content width */
+}
+
+.hero-tagline {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 2rem;
+}
+
+.hero .btn-primary {
+    background-color: var(--text-light); /* White button */
+    color: var(--dark-blue); /* Dark text */
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.hero .btn-primary:hover {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+
+/* Middle section */
+.middle-section {
+    padding: var(--section-padding);
+    text-align: center;
+}
+
+.middle-text {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--dark-blue);
+}
+
+.section-subtitle { /* Italic part within section-title */
+    font-style: italic;
+    color: var(--accent-color);
+}
+
+.section-description {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+/* Property Showcase */
+.property-showcase {
+    padding: var(--section-padding);
+    background-color: #f8f9fa;
+}
+
+.property-image {
+    border-radius: var(--border-radius); /* Use consistent radius */
+    overflow: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.property-image img {
+    width: 100%;
+    height: 250px; /* Fixed height for showcase images */
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.property-image:hover img {
+    transform: scale(1.05);
+}
+
+/* Inclusions Section */
+.inclusions-section { /* Renamed from .inclusions */
+    padding: var(--section-padding);
+    background: linear-gradient(rgba(12, 35, 57, 0.85), rgba(12, 35, 57, 0.85)),
+    url('https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'); /* Your chosen image */
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border-radius: 1rem;
+    margin: 2rem 0; /
+    text-align: center;
+}
+.inclusion-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.inclusion-subtitle {
+    font-style: italic;
+    font-size: 2.5rem; /* Match title */
+    color: var(--accent-color);
+}
+
+.inclusion-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.btn-contact, .btn-section-action {
+    background-color: var(--dark-blue);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.btn-contact:hover, .btn-section-action:hover {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+.btn-light-outline {
+    background-color: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+.btn-light-outline:hover {
+    background-color: white;
+    color: var(--dark-blue);
+}
+
+/* Footer */
+footer.main-footer { /* Added class for specificity */
+    background-color: var(--dark-blue);
+    color: var(--text-light);
+    padding: 2.5rem 0;
+    margin-top: 3rem; /* Ensure space above footer */
+}
+
+.footer-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+.footer-links a:hover {
+    color: var(--text-light);
+}
+
+.social-icons a {
+    color: rgba(255,255,255,0.7);
+    margin-right: 1rem;
+    font-size: 1.3rem;
+    transition: color 0.2s ease;
+}
+.social-icons a:last-child { margin-right: 0; }
+.social-icons a:hover {
+    color: var(--text-light);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.9em;
+    color: rgba(255,255,255,0.5);
+}
+
+/* Divider Style (from your HTML) */
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2rem 0;
+}
+.divider-icon {
+    font-size: 1rem;
+    margin: 0 1rem;
+    color: var(--accent-color);
+}
+.divider-line {
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .navbar-landing .navbar-nav {
+        margin-top: 1rem;
+        text-align: center; /* Center collapsed items */
+    }
+    .navbar-landing .nav-item {
+        margin-bottom: 0.5rem;
+    }
+    .navbar-landing .btn {
+        display: block;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body { padding-top: 60px; }
+    .hero { padding: 4rem 0; margin-left:0.5rem; margin-right:0.5rem;}
+    .hero-title { font-size: 2.25rem; }
+    .hero-subtitle { font-size: 1.25rem; }
+    .section-title, .inclusion-title { font-size: 2rem; }
+    .section-subtitle, .inclusion-subtitle { font-size: 2rem; } /* Match section title */
+    .property-showcase .col-md-6 { margin-bottom: 1.5rem;}
+    .inclusions-section { margin-left: 0.5rem; margin-right: 0.5rem; }
+}
+footer.main-footer h5 {
+    /* Use text-light color for headings, matching screenshot vibe */
+    color: var(--text-light);
+    font-weight: 600; /* Ensure consistent weight */
+    margin-bottom: 1.25rem; /* Space below the heading text */
+    position: relative; /* Needed so the ::after pseudo-element is positioned relative to the h5 */
+    padding-bottom: 0.75rem; /* Creates space between the heading text and the underline */
+}
+
+/* Pseudo-element to create the blue underline line */
+footer.main-footer h5::after {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position relative to the parent h5 */
+    left: 0; /* Start the line at the left edge of the h5 */
+    bottom: 0; /* Place the line at the bottom of the h5 (in the padding space) */
+    width: 50px; /* Set the length of the underline */
+    height: 2px; /* Set the thickness of the underline */
+    background-color: var(--accent-color); /* Use the accent blue color from your variables */
+}

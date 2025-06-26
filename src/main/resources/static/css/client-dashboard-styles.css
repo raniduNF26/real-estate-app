@@ -1,0 +1,311 @@
+/* src/main/resources/static/css/client-dashboard-styles.css */
+
+/* Dashboard header with stats overview */
+.dashboard-header {
+    margin: 0 0 2rem 0; /* Adjusted margin */
+    padding: 2rem;
+    background: var(--white-bg); /* Using common variable */
+    border-radius: var(--border-radius); /* Using common variable */
+    box-shadow: var(--shadow-card); /* Using common variable */
+}
+
+.dashboard-header h1 { /* Style for the main H1 inside the header */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-navy); /* Using common variable */
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-header p { /* Style for the description below the H1 */
+    color: var(--text-color-muted); /* Using common variable */
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.stat-item {
+    flex: 1;
+    min-width: 160px;
+    padding: 1.25rem;
+    background-color: var(--accent-blue-light); /* Using common variable */
+    border-radius: var(--border-radius); /* Using common variable */
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-item i {
+    font-size: 2rem;
+    color: var(--accent-blue); /* Using common variable */
+    margin-bottom: 0.75rem;
+}
+
+.stat-item .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-navy); /* Using common variable */
+    margin-bottom: 0.5rem;
+}
+
+.stat-item .stat-label {
+    color: var(--text-color-muted); /* Using common variable */
+    font-size: 0.9rem;
+}
+
+/* Dashboard Status Badges (Appointment Statuses) */
+.badge-status-confirmed {
+    background-color: #2ecc71 !important; /* Green */
+    color: var(--text-color-light); /* Using common variable */
+}
+
+.badge-status-pending {
+    background-color: #f39c12 !important; /* Orange */
+    color: var(--text-color-light); /* Using common variable */
+}
+
+.badge-status-completed {
+    background-color: var(--secondary-navy) !important; /* Secondary navy */
+    color: var(--text-color-light); /* Using common variable */
+}
+
+.badge-status-other {
+    background-color: #bdc3c7 !important; /* Grey */
+    color: var(--text-color-dark); /* Using common variable */
+}
+
+/* Empty state styling */
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+    color: var(--text-color-muted); /* Using common variable */
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--text-color-muted); /* Using common variable */
+    margin-bottom: 1.5rem;
+}
+.empty-state p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+
+/* Property card styling for dashboard previews */
+.property-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius); /* Using common variable */
+    border: none; /* Remove default card border */
+    box-shadow: var(--shadow-subtle); /* Subtle shadow for inner cards */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background-color: var(--white-bg); /* Using common variable */
+}
+.property-card:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px; /* Slightly more pronounced shadow on hover */
+}
+
+
+.property-card .property-img {
+    height: 160px;
+    background-color: var(--light-bg); /* Using common variable */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-muted); /* Using common variable */
+    font-size: 3rem;
+    overflow: hidden; /* Ensure image respects border radius */
+    border-top-left-radius: var(--border-radius); /* Match card radius */
+    border-top-right-radius: var(--border-radius); /* Match card radius */
+}
+.property-card .property-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the area */
+}
+
+
+.property-card .property-details {
+    flex: 1;
+    padding: 1.25rem;
+}
+
+.property-card .property-details h5 { /* Style for property address/title */
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-navy); /* Using common variable */
+    margin-bottom: 0.75rem;
+}
+
+.property-card .property-details p { /* Style for description snippet */
+    font-size: 0.9rem;
+    color: var(--text-color-dark); /* Using common variable */
+    margin-bottom: 1rem;
+}
+
+
+.property-card .property-footer {
+    padding: 1rem 1.25rem;
+    background-color: var(--accent-blue-light); /* Using common variable */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom-left-radius: var(--border-radius); /* Match card radius */
+    border-bottom-right-radius: var(--border-radius); /* Match card radius */
+}
+
+.property-feature {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    color: var(--text-color-muted); /* Using common variable */
+    font-size: 0.9rem;
+}
+
+.property-feature i {
+    margin-right: 0.5rem;
+    color: var(--secondary-navy); /* Use secondary navy for feature icons */
+}
+.property-feature:last-child {
+    margin-right: 0; /* Remove margin on last feature */
+}
+
+
+/* Availability calendar preview */
+.calendar-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); /* Responsive grid */
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    background-color: var(--light-bg); /* Using common variable */
+    padding: 0.75rem 0.25rem; /* Adjusted padding */
+    text-align: center;
+    border-radius: 6px;
+    font-size: 0.85rem; /* Adjusted font size */
+    color: var(--text-color-dark); /* Using common variable */
+}
+
+.calendar-day strong { /* Style for the day number */
+    display: block; /* Put day number on new line */
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.calendar-day.available {
+    background-color: rgba(46, 204, 113, 0.2); /* Semi-transparent green */
+    color: #27ae60; /* Darker green text */
+    font-weight: 600;
+    border: 1px solid #2ecc71; /* Green border */
+}
+.calendar-day.available strong {
+    color: #27ae60; /* Ensure day number is also green */
+}
+
+
+/* List Group Styling (for Quick Actions / Recent Activity / Appointments) */
+.list-group-item {
+    border: none; /* Remove default border */
+    border-radius: var(--border-radius); /* Using common variable */
+    margin-bottom: 12px;
+    background-color: var(--white-bg); /* Using common variable */
+    padding: 1.25rem 1.5rem;
+    box-shadow: rgba(0, 31, 63, 0.05) 0px 2px 8px; /* Subtle shadow */
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent; /* Accent border on hover/active */
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Vertically align content */
+    justify-content: space-between; /* Space out content */
+    gap: 1rem; /* Space between items */
+}
+.list-group-item:last-child {
+    margin-bottom: 0;
+}
+
+.list-group-item:hover {
+    background-color: var(--accent-blue-light); /* Using common variable */
+    border-left-color: var(--accent-blue); /* Using common variable */
+    transform: translateX(5px);
+}
+
+.list-item-content { /* Container for the main text content */
+    flex-grow: 1; /* Allow content to take up space */
+}
+
+.list-item-content h6 { /* Title within the list item */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-navy); /* Using common variable */
+    margin-bottom: 0.25rem;
+}
+
+.list-item-meta { /* Container for date, status, etc. */
+    flex-shrink: 0; /* Prevent shrinking */
+    text-align: right; /* Align to the right */
+}
+
+.list-item-meta .text-muted {
+    font-size: 0.8rem; /* Smaller muted text */
+}
+
+
+/* Welcome message animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-message {
+    animation: fadeInUp 0.5s ease-out forwards; /* Apply animation */
+    /* Ensure margin/padding is handled by dashboard-header */
+}
+
+
+/* Responsive adjustments for dashboard specific elements */
+@media (max-width: 767.98px) {
+    .dashboard-header {
+        padding: 1.5rem; /* Smaller padding on mobile */
+    }
+    .dashboard-header h1 {
+        font-size: 2rem; /* Smaller title on mobile */
+    }
+    .stats-container {
+        flex-direction: column; /* Stack stats on mobile */
+    }
+    .stat-item {
+        min-width: 100%; /* Full width on mobile */
+    }
+    .list-group-item {
+        flex-direction: column; /* Stack list item content on mobile */
+        align-items: flex-start; /* Align stacked content to the left */
+    }
+    .list-item-meta {
+        width: 100%; /* Full width meta on mobile */
+        text-align: left; /* Align meta to the left */
+        margin-top: 0.5rem; /* Space above meta */
+    }
+    .list-item-meta .badge {
+        margin-left: 0; /* Remove margin from badge if needed */
+        margin-right: 0.5rem; /* Add some space after badge */
+    }
+}

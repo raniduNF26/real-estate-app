@@ -1,0 +1,256 @@
+
+/* Dashboard Specific Styles */
+
+/* Dashboard Content Area */
+.main-content {
+    flex: 1;
+    padding: 2rem 0;
+}
+
+/* Dashboard Footer Style - From Dashboard CSS */
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-column h5 {
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: var(--accent-blue);
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.footer-column h5::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-blue);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--text-color-light);
+}
+
+.footer-social a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    transition: color 0.2s ease;
+}
+
+.footer-social a:hover {
+    color: var(--accent-blue);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Dashboard header with stats overview */
+.dashboard-header {
+    margin: 0 0 2rem 0;
+    padding: 2rem;
+    background: var(--white-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+}
+
+.stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.stat-item {
+    flex: 1;
+    min-width: 160px;
+    padding: 1.25rem;
+    background-color: var(--accent-blue-light);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-item i {
+    font-size: 2rem;
+    color: var(--accent-blue);
+    margin-bottom: 0.75rem;
+}
+
+.stat-item .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--secondary-navy);
+    margin-bottom: 0.5rem;
+}
+
+.stat-item .stat-label {
+    color: var(--text-color-muted);
+    font-size: 0.9rem;
+}
+
+/* Dashboard Status Badges */
+.badge-status-confirmed {
+    background-color: #2ecc71 !important;
+    color: var(--text-color-light);
+}
+
+.badge-status-pending {
+    background-color: #f39c12 !important;
+    color: var(--text-color-light);
+}
+
+.badge-status-completed {
+    background-color: var(--secondary-navy) !important;
+    color: var(--text-color-light);
+}
+
+.badge-status-other {
+    background-color: #bdc3c7 !important;
+    color: var(--text-color-dark);
+}
+
+/* Empty state styling */
+.empty-state {
+    padding: 3rem 1.5rem;
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    color: var(--text-color-muted);
+    margin-bottom: 1.5rem;
+}
+
+/* Property card styling */
+.property-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card .property-img {
+    height: 160px;
+    background-color: var(--light-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color-muted);
+    font-size: 3rem;
+}
+
+.property-card .property-details {
+    flex: 1;
+    padding: 1.25rem;
+}
+
+.property-card .property-footer {
+    padding: 1rem 1.25rem;
+    background-color: var(--accent-blue-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.property-feature {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    color: var(--text-color-muted);
+    font-size: 0.9rem;
+}
+
+.property-feature i {
+    margin-right: 0.5rem;
+    color: var(--accent-blue);
+}
+
+/* Availability calendar preview */
+.calendar-preview {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+.calendar-day {
+    background-color: var(--light-bg);
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.calendar-day.available {
+    background-color: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+    font-weight: 600;
+}
+
+/* List Group Styling */
+.list-group-item {
+    border: none;
+    border-radius: var(--border-radius);
+    margin-bottom: 12px;
+    background-color: var(--white-bg);
+    padding: 1.25rem 1.5rem;
+    box-shadow: rgba(0, 31, 63, 0.05) 0px 2px 8px;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+}
+
+.list-group-item:hover {
+    background-color: var(--accent-blue-light);
+    border-left-color: var(--accent-blue);
+    transform: translateX(5px);
+}
+
+/* Welcome message animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-message {
+    animation: fadeInUp 0.5s ease-out;
+}

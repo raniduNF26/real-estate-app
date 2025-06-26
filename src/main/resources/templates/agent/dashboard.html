@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link th:href="@{/css/common.css}" rel="stylesheet">
+  <link th:href="@{/css/agent-dashboard-styles.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-theme navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/agent/dashboard}">
+      <i class="fas fa-home me-2"></i>Real Estate Agent Portal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/agent/dashboard}">
+            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/profile}">
+            <i class="fas fa-user me-1"></i> Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/properties}">
+            <i class="fas fa-building me-1"></i> Properties
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/availability}">
+            <i class="fas fa-calendar-alt me-1"></i> Availability
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/appointments}">
+            <i class="fas fa-calendar-check me-1"></i> Appointments
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown" th:if="${agent != null}"> <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user-circle me-1"></i> <span th:text="${agent.fullName}">Agent Name</span>
+        </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" th:href="@{/agent/profile}"><i class="fas fa-id-card me-2"></i> My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" th:unless="${agent != null}">
+          <a class="nav-link" th:href="@{/login}">Login</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-content">
+  <div class="container">
+    <div th:if="${param.success}" class="alert alert-success"><i class="fas fa-check-circle me-2"></i> <span th:text="${param.success}">Action completed successfully!</span></div>
+    <div th:if="${param.error}" class="alert alert-danger"><i class="fas fa-exclamation-circle me-2"></i> Error: <span th:text="${param.error}">Error occurred.</span></div>
+    <div th:if="${dashboardError}" class="alert alert-danger" th:text="${dashboardError}"></div>
+    <div th:if="${propertyError}" class="alert alert-danger" th:text="${propertyError}"></div>
+
+
+    <div class="dashboard-header" th:if="${agent != null}">
+      <div class="d-flex justify-content-between align-items-center welcome-message">
+        <div>
+          <h1 class="text-secondary-theme mb-2">Welcome Back!</h1>
+          <p class="lead mb-0 text-muted">Good to see you, <span class="text-accent-theme fw-bold" th:text="${agent.fullName}">Agent Name</span></p>
+        </div>
+        <div>
+          <span class="text-muted">Today is </span>
+          <span class="fw-bold" id="currentDate" th:text="${currentDateFormatted}">Date</span>
+        </div>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-item">
+          <i class="fas fa-building"></i>
+          <div class="stat-value" th:text="${#lists.size(managedPropertyList)}">0</div> <div class="stat-label">Properties</div>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-calendar-check"></i>
+          <div class="stat-value" th:text="${#lists.size(appointments)}">0</div>
+          <div class="stat-label">Total Appointments</div>
+        </div>
+        <div class="stat-item">
+          <i class="fas fa-clock"></i>
+          <div class="stat-value" th:text="${agent.availability != null ? #maps.size(agent.availability) : 0}">0</div>
+          <div class="stat-label">Available Slots</div>
+        </div>
+        <div class="stat-item"> <i class="fas fa-chart-line"></i>
+          <div class="stat-value">N/A</div>
+          <div class="stat-label">Success Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-header-dashboard">
+        <i class="fas fa-calendar"></i>
+        <h5 class="card-title mb-0">Upcoming Appointments</h5>
+      </div>
+      <div class="card-body">
+        <div th:if="${#lists.isEmpty(appointments)}" class="empty-state">
+          <i class="fas fa-calendar-times"></i><h5>No Upcoming Appointments</h5>
+          <p class="text-muted">You don't have any appointments scheduled at this time.</p>
+          <a th:href="@{/agent/availability}" class="btn btn-theme-primary mt-2"><i class="fas fa-plus me-2"></i>Set Your Availability</a>
+        </div>
+        <div th:unless="${#lists.isEmpty(appointments)}" class="list-group">
+          <div th:each="appointment : ${appointments}" class="list-group-item">
+            <th:block th:with="clientDetail=${clientDetailsMap.get(appointment.clientId)}">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 text-primary-theme">
+                  <i class="fas fa-user me-2"></i>
+                  <span th:if="${clientDetail != null}" th:text="${clientDetail.fullName}">Client Name</span>
+                  <span th:unless="${clientDetail != null}" class="text-muted" th:text="'Client ID: ' + ${appointment.clientId}">Client N/A</span>
+                </h5>
+                <span class="badge" th:classappend="${appointment.status == T(com.sliit.realestate.models.Appointment.AppointmentStatus).CONFIRMED ? 'badge-status-confirmed' : (appointment.status == T(com.sliit.realestate.models.Appointment.AppointmentStatus).PENDING ? 'badge-status-pending' : (appointment.status == T(com.sliit.realestate.models.Appointment.AppointmentStatus).COMPLETED ? 'badge-status-completed' : 'badge-status-other'))}" th:text="${appointment.status}">STATUS</span>
+              </div>
+              <div class="d-flex align-items-center mb-2">
+                <i class="fas fa-clock text-accent-theme me-2"></i>
+                <span th:text="${#temporals.format(appointment.dateTime, 'dd MMM uuuu, HH:mm a')}">Date Time</span>
+              </div>
+              <div th:if="${clientDetail != null}" class="small text-muted mb-2">
+                <div class="d-flex flex-wrap">
+                  <div class="me-3"><i class="fas fa-envelope me-1"></i> <span th:text="${clientDetail.email}">[email]</span></div>
+                  <div><i class="fas fa-phone me-1"></i> <span th:text="${clientDetail.phone}">[phone]</span></div>
+                </div>
+              </div>
+              <p class="mb-1 small" th:text="${appointment.notes != null and !appointment.notes.isEmpty() ? appointment.notes : 'No additional notes.'}">Appointment notes...</p>
+              <div class="mt-3">
+                <form th:if="${appointment.status == T(com.sliit.realestate.models.Appointment.AppointmentStatus).PENDING}" th:action="@{/agent/appointments/confirm}" method="post" class="d-inline me-1">
+                  <input type="hidden" name="appointmentId" th:value="${appointment.appointmentId}" />
+                  <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-check me-1"></i> Confirm</button>
+                </form>
+                <form th:if="${appointment.status != T(com.sliit.realestate.models.Appointment.AppointmentStatus).CANCELLED and appointment.status != T(com.sliit.realestate.models.Appointment.AppointmentStatus).COMPLETED}" th:action="@{/agent/appointments/cancel}" method="post" class="d-inline">
+                  <input type="hidden" name="appointmentId" th:value="${appointment.appointmentId}" />
+                  <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Cancel this appointment?');"><i class="fas fa-times me-1"></i> Cancel</button>
+                </form>
+              </div>
+            </th:block>
+          </div>
+        </div>
+        <div class="mt-3 text-end" th:unless="${#lists.isEmpty(appointments)}">
+          <a th:href="@{/agent/appointments}" class="btn btn-link text-accent-theme">View All Appointments <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
+        <div class="card">
+          <div class="card-header-dashboard">
+            <i class="fas fa-building"></i><h5 class="card-title mb-0 ms-2">Your Managed Properties</h5>
+          </div>
+          <div class="card-body">
+            <div th:if="${#lists.isEmpty(managedPropertyList)}" class="empty-state">
+              <i class="fas fa-home"></i><h5>No Properties Yet</h5>
+              <p class="text-muted">You don't have any properties under management.</p>
+              <a th:href="@{/agent/properties/add}" class="btn btn-theme-primary mt-2"><i class="fas fa-plus me-2"></i>Add New Property</a>
+            </div>
+            <div th:unless="${#lists.isEmpty(managedPropertyList)}" class="list-group">
+              <a th:each="prop : ${managedPropertyList}" th:href="@{/agent/properties/view/{id}(id=${prop.propertyId})}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1 text-primary-theme" th:text="${prop.address}">Property Address</h6>
+                  <small class="text-muted" th:text="${prop.type}">Type</small>
+                </div>
+                <p class="mb-1 small text-success fw-bold" th:text="'LKR ' + ${#numbers.formatDecimal(prop.price, 0, 'COMMA', 0, 'POINT')}">Price</p>
+                <small class="text-muted" th:text="${prop.status}">Status</small>
+              </a>
+            </div>
+            <div class="mt-3 text-end" th:unless="${#lists.isEmpty(managedPropertyList)}">
+              <a th:href="@{/agent/properties}" class="btn btn-link text-accent-theme">Manage All Properties <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="card">
+          <div class="card-header-dashboard">
+            <i class="fas fa-calendar-alt"></i><h5 class="card-title mb-0 ms-2">Upcoming Availability</h5>
+          </div>
+          <div class="card-body">
+            <div th:if="${#lists.isEmpty(upcomingAvailability)}" class="empty-state">
+              <i class="fas fa-calendar-day"></i><h5>No Slots Set</h5>
+              <p class="text-muted">You haven't set any upcoming availability.</p>
+            </div>
+            <div th:unless="${#lists.isEmpty(upcomingAvailability)}" class="list-group">
+              <div th:each="slotEntry : ${upcomingAvailability}" class="list-group-item">
+                <i class="fas fa-clock text-accent-theme me-2"></i>
+                <span th:text="${#temporals.format(slotEntry.value, 'EEE, dd MMM - HH:mm a')}">Slot Time</span>
+              </div>
+            </div>
+            <div class="mt-3 text-end">
+              <a th:href="@{/agent/availability}" class="btn btn-link text-accent-theme">Manage Your Schedule <i class="fas fa-arrow-right ms-1"></i></a>
+            </div>
+          </div>
+        </div>
+      </div> </div></div></div>
+<footer class="footer-theme"> <div class="container">
+
+  <div class="footer-content">
+    <div class="footer-column">
+      <h5>nestseeKr</h5>
+      <p>Your premier partner in real estate.</p>
+    </div>
+    <div class="footer-column">
+      <h5>Quick Links</h5>
+      <ul class="footer-links">
+        <li><a th:href="@{/agent/dashboard}">Dashboard</a></li>
+        <li><a th:href="@{/agent/properties}">My Properties</a></li>
+        <li><a th:href="@{/agent/profile}">My Profile</a></li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h5>Contact</h5>
+      <ul class="footer-links">
+        <li>info@nestseekr.lk</li>
+        <li>+94 11 222 3333</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 nestseeKr. All rights reserved.</p>
+  </div>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Simple script to set current date (optional)
+  const dateElement = document.getElementById('currentDate');
+  if(dateElement) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    dateElement.textContent = new Date().toLocaleDateString('en-US', options);
+  }
+</script>
+</body>
+</html>

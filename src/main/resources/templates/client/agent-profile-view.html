@@ -1,0 +1,337 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${agent.fullName} + ' - Agent Profile'">Agent Profile</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Link to common CSS file -->
+    <link href="/css/common.css" rel="stylesheet">
+    <style>
+        /* src/main/resources/static/css/agent-profile-styles.css */
+
+        /* Profile Image */
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%; /* Keep circular for profile images */
+            border: 3px solid var(--primary-navy); /* Add a navy border */
+            padding: 3px; /* Space for border */
+            box-shadow: var(--shadow-subtle); /* Subtle shadow on image */
+        }
+
+        /* Mini Property Card Image */
+        .property-card-mini img {
+            object-fit: cover;
+            height: 150px; /* Maintain consistent image height */
+            border-top-left-radius: var(--border-radius); /* Match card border radius */
+            border-top-right-radius: var(--border-radius);
+        }
+
+        /* Availability List Group Styling (Styled like items in dashboard) */
+        .availability-list.list-group { /* Combine with list-group class */
+            --bs-list-group-border-radius: var(--border-radius); /* Rounded corners for the list container */
+        }
+        .availability-list .list-group-item {
+            border: 1px solid var(--light-bg); /* Subtle border between items */
+            border-radius: var(--border-radius); /* Rounded corners for each item */
+            margin-bottom: 10px; /* Space between items */
+            background-color: var(--white-bg); /* White background */
+            padding: 1.25rem 1.5rem; /* Padding inside each item */
+            transition: background-color 0.2s ease;
+        }
+        .availability-list .list-group-item:last-child {
+            margin-bottom: 0; /* No margin on the last item */
+        }
+        .availability-list .list-group-item:hover {
+            background-color: var(--light-bg); /* Subtle hover effect */
+        }
+
+        /* Icon Styling within Availability List Items */
+        .availability-list .list-group-item .fas {
+            color: var(--secondary-navy); /* Secondary navy for icons */
+        }
+        .availability-list .list-group-item strong {
+            color: var(--text-color-dark); /* Use dark text for strong text like date/time */
+        }
+
+        /* Theme Success button (Book Slot) */
+        .btn-theme-success {
+            background-color: #2ecc71; /* Green for booking action */
+            border-color: #2ecc71;
+            color: var(--text-color-light);
+        }
+        .btn-theme-success:hover {
+            background-color: #27ae60;
+            border-color: #27ae60;
+        }
+
+        /* Theme Warning button (Submit Rating) */
+        .btn-theme-warning {
+            background-color: #f39c12; /* Orange for rating action */
+            border-color: #f39c12;
+            color: var(--text-color-light);
+        }
+        .btn-theme-warning:hover {
+            background-color: #e67e22;
+            border-color: #e67e22;
+        }
+
+        /* Outline danger button (Add to Favorites on property card) */
+        /* The base btn-outline-danger is a Bootstrap class, but these specific overrides are for your theme */
+        .btn-outline-danger {
+            color: #e74c3c; /* Keep standard red */
+            border-color: #e74c3c;
+        }
+        .btn-outline-danger:hover {
+            color: var(--text-color-light);
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        /* Specific styling for favorite button on property card */
+        .property-card-mini .btn-outline-danger.border-0 {
+            border: none !important; /* Ensure no border */
+            padding: 0.25rem; /* Smaller padding */
+            font-size: 1rem; /* Standard icon size */
+        }
+        .property-card-mini .btn-outline-danger.border-0 i {
+            color: #e74c3c; /* Red heart icon */
+        }
+        .property-card-mini .btn-outline-danger.border-0:hover i {
+            color: #c0392b; /* Darker red on hover */
+        }
+
+        /* Form Check Styling (Rating radio buttons) */
+        .form-check-input {
+            border-radius: 6px; /* Rounded corners */
+            border: 1px solid var(--input-border);
+            background-color: var(--light-bg);
+            padding: 0.4rem; /* Adjust padding for square inputs */
+            margin-top: 0.3rem; /* Align vertically with label */
+        }
+        .form-check-input:checked {
+            background-color: var(--accent-blue); /* Accent blue when checked */
+            border-color: var(--accent-blue);
+        }
+        .form-check-input:focus {
+            border-color: var(--secondary-navy);
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+        }
+
+        .form-check-label {
+            color: var(--text-color-dark);
+        }
+
+        /* Price text */
+        .text-price { /* Custom class for price */
+            color: #2ecc71 !important; /* Green color for price */
+            font-weight: bold;
+            font-size: 1.25rem; /* Slightly larger font */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-theme navbar-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="${client != null ? '/client/dashboard' : '/'}">
+            <i class="fas fa-home me-2"></i>Real Estate Portal
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/dashboard}"><i class="fas fa-tachometer-alt me-1"></i>Dashboard</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/profile}"><i class="fas fa-user me-1"></i>Profile</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/favorites}"><i class="fas fa-heart me-1"></i>Favorites</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link active" aria-current="page" th:href="@{/client/agents}"><i class="fas fa-user-tie me-1"></i>Agents</a></li>
+                <li th:if="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/client/appointments}"><i class="fas fa-calendar-check me-1"></i>Appointments</a></li>
+                <li th:unless="${client != null}" class="nav-item"> <a class="nav-link" th:href="@{/properties}">Browse Properties</a> </li>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown" th:if="${client != null}"> <a class="nav-link dropdown-toggle" href="#" id="clientNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle me-1"></i> <span th:text="${client.fullName}">Client Name</span>
+                </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="clientNavbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/client/profile}"><i class="fas fa-id-card me-2"></i> My Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form th:action="@{/logout}" method="post">
+                                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item" th:unless="${client != null}">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container main-content">
+    <div class="card">
+        <div class="card-header-dashboard">
+            <h3 class="mb-0"><i class="fas fa-user-tie me-2 text-accent-theme"></i> <span th:text="${agent.fullName}">Agent Name</span></h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <img src="https://via.placeholder.com/150" class="img-fluid profile-pic" alt="Agent Profile Picture">
+                </div>
+                <div class="col-md-8">
+                    <h4 class="mb-3 text-secondary-theme"><span th:text="${agent.fullName}">Agent Name</span></h4>
+                    <p class="text-muted mb-2"><i class="fas fa-envelope fa-fw me-2"></i> <span th:text="${agent.email}">[email]</span></p>
+                    <p class="text-muted mb-2"><i class="fas fa-phone fa-fw me-2"></i> <span th:text="${agent.phone}">[phone]</span></p>
+                    <p class="mb-2 text-muted"><i class="fas fa-id-card fa-fw me-2"></i> License #: <span th:text="${agent.licenseNumber}">[license]</span></p>
+                    <p class="mb-2"><i class="fas fa-briefcase fa-fw me-2"></i> Specialization: <span class="badge bg-primary" th:text="${agent.specialization}">[specialization]</span></p>
+                    <p class="mb-2 text-muted"><i class="fas fa-map-marker-alt fa-fw me-2"></i> Location: <span th:text="${agent.location}">[location]</span></p>
+                    <p class="mb-2"><i class="fas fa-star fa-fw me-2 text-warning"></i> Average Rating: <span th:text="${#numbers.formatDecimal(agent.averageRating, 1, 1)}">0.0</span>/5.0 (<span th:text="${agent.totalRatings}" class="text-secondary-theme">0</span> ratings)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header-dashboard">
+            <h3 class="mb-0"><i class="fas fa-building me-2 text-accent-theme"></i> Properties Managed by <span th:text="${agent.fullName}">Agent</span></h3>
+        </div>
+        <div class="card-body">
+            <div th:if="${propertyError}" class="alert alert-danger" th:text="${propertyError}"></div>
+
+            <div th:if="${#lists.isEmpty(managedProperties)}" class="alert alert-info">
+                This agent currently has no properties listed.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(managedProperties)}" class="row">
+                <div th:each="prop : ${managedProperties}" class="col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+                    <div class="card h-100 property-card-mini">
+                        <a th:href="@{/properties/view/{id}(id=${prop.propertyId})}">
+                            <img th:if="${prop.imageUrl != null and !prop.imageUrl.isEmpty()}" th:src="${prop.imageUrl}" class="card-img-top" alt="Property Image">
+                            <img th:unless="${prop.imageUrl != null and !prop.imageUrl.isEmpty()}" src="https://via.placeholder.com/300x150.png?text=No+Image" class="card-img-top" alt="No Image Available">
+                        </a>
+                        <div class="card-body d-flex flex-column pb-2">
+                            <h6 class="card-title mb-1" th:text="${prop.address}">Property Address</h6>
+                            <p class="card-text text-muted small" th:text="${prop.type}">Type</p>
+                            <p class="card-text text-price mt-auto mb-2" th:text="'LKR ' + ${#numbers.formatDecimal(prop.price, 0, 'COMMA', 0, 'POINT')}">Price</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge"
+                                      th:classappend="${prop.status == T(com.sliit.realestate.models.Property.PropertyStatus).FOR_SALE or prop.status == T(com.sliit.realestate.models.Property.PropertyStatus).FOR_RENT ? 'badge-status-sale' : (prop.status == T(com.sliit.realestate.models.Property.PropertyStatus).PENDING ? 'badge-status-pending' : (prop.status == T(com.sliit.realestate.models.Property.PropertyStatus).CANCELLED ? 'badge-status-cancelled' : 'badge-status-unknown'))}"
+                                      th:text="${prop.status}">Status</span>
+                                <form th:action="@{/client/favorites/add}" method="post" class="d-inline">
+                                    <input type="hidden" name="propertyId" th:value="${prop.propertyId}" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger border-0" title="Add to Favorites">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header-dashboard">
+            <h3 class="mb-0"><i class="fas fa-calendar-alt me-2 text-accent-theme"></i> Book an Appointment</h3>
+        </div>
+        <div class="card-body">
+            <div th:if="${#maps.isEmpty(agent.availability)}" class="alert alert-warning">
+                This agent currently has no available time slots listed.
+            </div>
+            <div th:unless="${#maps.isEmpty(agent.availability)}">
+                <p>Select a time slot below to book your appointment:</p>
+                <ul class="list-group availability-list">
+                    <li th:each="slotEntry : ${agent.availability}" class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <span class="me-3 mb-2 mb-md-0">
+                            <i class="fas fa-calendar-alt me-1"></i> <strong th:text="${#temporals.format(slotEntry.value, 'EEE, dd MMM uuuu')}">Date</strong> at
+                            <strong th:text="${#temporals.format(slotEntry.value, 'hh:mm a')}">Time</strong>
+                        </span>
+                        <form th:action="@{/client/appointment/book}" method="post" class="d-inline">
+                            <input type="hidden" name="agentId" th:value="${agent.userId}" />
+                            <input type="hidden" name="timeSlotId" th:value="${slotEntry.key}" />
+                            <input type="hidden" name="appointmentDateTime" th:value="${#temporals.formatISO(slotEntry.value)}" />
+                            <button type="submit" class="btn btn-sm btn-theme-success">
+                                <i class="fas fa-calendar-check me-1"></i> Book This Slot
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${client != null}" class="card">
+        <div class="card-header-dashboard">
+            <h3 class="mb-0"><i class="fas fa-star me-2 text-accent-theme"></i> Rate This Agent</h3>
+        </div>
+        <div class="card-body">
+            <div th:if="${ratingSuccess}" class="alert alert-success" th:text="${ratingSuccess}"></div>
+            <div th:if="${ratingError}" class="alert alert-danger" th:text="${ratingError}"></div>
+
+            <form th:action="@{/client/agent/{id}/rate(id=${agent.userId})}" method="post">
+                <p>Share your experience with <span th:text="${agent.fullName}">Agent Name</span>:</p>
+                <div class="mb-3">
+                    <label class="form-label">Your Rating:</label>
+                    <div class="d-flex">
+                        <div class="form-check form-check-inline" th:each="i : ${#numbers.sequence(1, 5)}">
+                            <input class="form-check-input" type="radio" name="ratingValue" th:id="'rating' + ${i}" th:value="${i}" required>
+                            <label class="form-check-label" th:for="'rating' + ${i}">
+                                <span th:text="${i}">1</span>
+                                <i class="fas fa-star text-warning"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-theme-warning">
+                    <i class="fas fa-star me-1"></i> Submit Rating
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer-theme">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h5>Real Estate Portal</h5>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Properties</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Resources</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Buying Guide</a></li>
+                    <li><a href="#">Selling Tips</a></li>
+                    <li><a href="#">Property Blog</a></li>
+                    <li><a href="#">Market Analysis</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h5>Connect With Us</h5>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Real Estate Portal. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

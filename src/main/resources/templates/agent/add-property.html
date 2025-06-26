@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Property | nestseekr</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <link th:href="@{/css/common.css}" rel="stylesheet">
+
+  <style>
+    /* Add Property - Embedded Styles */
+
+    /* Specific Form Control Overrides (from original embedded CSS) */
+    .form-control,
+    .form-select {
+      border-radius: 6px; /* Slightly less rounded than cards - different from common */
+      border: 1px solid var(--input-border);
+      background-color: var(--light-bg); /* Light background for input - different from common */
+      color: var(--text-color-dark);
+      padding: 0.75rem 1rem; /* Standard input padding - different from common */
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      border-color: var(--secondary-navy); /* Different focus color from common */
+      box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15); /* Different focus shadow from common */
+      background-color: #fff; /* White background on focus */
+    }
+
+    .form-text {
+      color: var(--text-color-muted); /* Muted color for help text - consistent but embedded */
+      font-size: 0.85rem; /* Slightly smaller font size for help text - consistent but embedded */
+    }
+
+
+    /* Input Group Specific Styling (from original embedded CSS) */
+    .input-group .input-group-text {
+      border-radius: 6px 0 0 6px; /* Rounded left side */
+      background-color: var(--secondary-navy); /* Themed background */
+      color: var(--text-color-light); /* Light text */
+      border-color: var(--secondary-navy); /* Themed border */
+      padding: 0.75rem 1rem; /* Match form control padding */
+      font-weight: 500; /* Different weight from common buttons */
+    }
+    .input-group { /* Added to match form-styles.css structure */
+      /* Align items if they contain buttons/icons */
+      display: flex;
+      align-items: stretch; /* Ensure items stretch to fill height */
+    }
+    .input-group .form-control,
+    .input-group .form-select { /* Added to match form-styles.css structure */
+      /* Remove left border radius for the form control/select inside the group */
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      flex-grow: 1; /* Allow the input to grow */
+    }
+
+
+    /* Property Status Badges (from original embedded CSS) */
+    .badge-status-sale {
+      background-color: #2ecc71 !important; /* Green */
+      color: var(--text-color-light);
+    }
+    .badge-status-pending {
+      background-color: #f39c12 !important; /* Orange */
+      color: var(--text-color-light);
+    }
+    .badge-status-rent {
+      background-color: var(--accent-blue) !important; /* Accent blue */
+      color: var(--text-color-light);
+    }
+    .badge-status-other {
+      background-color: #bdc3c7 !important; /* Grey */
+      color: var(--text-color-dark);
+    }
+
+    /* Button Overrides (from original embedded CSS) */
+    .btn {
+      font-weight: 500; /* Different from common */
+      padding: 0.75rem 1.25rem; /* Different from common */
+    }
+
+    /* Outline secondary button (Cancel) - Specific style/class name (from original embedded CSS) */
+    .btn-theme-outline-secondary {
+      color: var(--secondary-navy); /* Secondary navy for outline */
+      border-color: var(--secondary-navy);
+      border-radius: 6px; /* Match other buttons */
+      transition: all 0.3s ease;
+      font-weight: 500; /* Match primary button */
+      padding: 0.75rem 1.25rem; /* Match primary button */
+    }
+    .btn-theme-outline-secondary:hover {
+      color: var(--text-color-light);
+      background-color: var(--secondary-navy);
+      border-color: var(--secondary-navy);
+    }
+
+    /* Keep standard red for required fields */
+    .text-danger {
+      color: #e74c3c !important;
+    }
+
+
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-theme navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" th:href="@{/agent/dashboard}">
+      <i class="fas fa-home me-2"></i>Real Estate Agent Portal
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/dashboard}">
+            <i class="fas fa-tachometer-alt me-1"></i> Dashboard
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/profile}">
+            <i class="fas fa-user me-1"></i> Profile
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" th:href="@{/agent/properties}">
+            <i class="fas fa-building me-1"></i> Properties
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/availability}">
+            <i class="fas fa-calendar-alt me-1"></i> Availability
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/agent/appointments}">
+            <i class="fas fa-calendar-check me-1"></i> Appointments
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown" th:if="${agent != null}">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-1"></i> <span th:text="${agent.fullName}">Agent Name</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" th:href="@{/agent/profile}"><i class="fas fa-id-card me-2"></i> My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <form th:action="@{/logout}" method="post">
+                <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i> Logout</button>
+              </form>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-content"> <div class="container my-4"> <div class="d-flex justify-content-between align-items-center page-heading">
+  <h1 class="mb-0">Add New Property Listing</h1>
+</div>
+
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-header-dashboard"> <h5 class="mb-0">Property Details</h5>
+        </div>
+        <div class="card-body">
+          <div th:if="${error}" class="alert alert-danger" th:text="${error}">
+            Error message placeholder
+          </div>
+
+          <form th:action="@{/agent/properties/add}" method="post">
+            <div class="mb-3">
+              <label for="address" class="form-label">Full Address <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="address" name="address" placeholder="e.g., 123 Main St, Colombo 5" required>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="price" class="form-label">Price (LKR) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">LKR</span>
+                  <input type="number" class="form-control" id="price" name="price" placeholder="e.g., 50000000" step="0.01" min="0" required>
+                </div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="type" class="form-label">Property Type <span class="text-danger">*</span></label>
+                <select class="form-select" id="type" name="type" required>
+                  <option value="" disabled selected>-- Select Type --</option>
+                  <option value="HOUSE">House</option>
+                  <option value="APARTMENT">Apartment</option>
+                  <option value="LAND">Land</option>
+                  <option value="COMMERCIAL">Commercial</option>
+                  <option value="OTHER">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="bedrooms" class="form-label">Bedrooms</label>
+                <input type="number" class="form-control" id="bedrooms" name="bedrooms" min="0" value="0">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="bathrooms" class="form-label">Bathrooms</label>
+                <input type="number" class="form-control" id="bathrooms" name="bathrooms" min="0" value="0">
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="areaSqFt" class="form-label">Area (Sq. Ft.)</label>
+                <input type="number" class="form-control" id="areaSqFt" name="areaSqFt" step="0.01" min="0" value="0">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" id="description" name="description" rows="4" placeholder="Detailed description of the property..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL</label>
+              <input type="url" class="form-control" id="imageUrl" name="imageUrl" placeholder="http://example.com/image.jpg">
+              <small class="form-text">Enter the full URL of a hosted image.</small>
+            </div>
+
+            <div class="mb-4">
+              <label for="status" class="form-label">Listing Status <span class="text-danger">*</span></label>
+              <select class="form-select" id="status" name="status" required>
+                <option th:each="stat : ${propertyStatuses}" th:value="${stat}" th:text="${stat}">Status</option>
+              </select>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+              <a th:href="@{/agent/properties}" class="btn btn-outline-secondary">Cancel</a>
+              <button type="submit" class="btn btn-theme-primary">
+                <i class="fas fa-plus-circle me-1"></i> Create Property Listing
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<footer class="footer-theme">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h5>nestseeKr</h5>
+        <p>Your premier partner in real estate.</p>
+      </div>
+      <div class="footer-column">
+        <h5>Quick Links</h5>
+        <ul class="footer-links">
+          <li><a th:href="@{/agent/dashboard}">Dashboard</a></li>
+          <li><a th:href="@{/agent/properties}">My Properties</a></li>
+          <li><a th:href="@{/agent/profile}">My Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h5>Contact</h5>
+        <ul class="footer-links">
+          <li>info@nestseekr.lk</li>
+          <li>+94 11 222 3333</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 nestseeKr. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,484 @@
+/* Common CSS - Shared across all pages */
+/* Common CSS - Shared across all pages */
+:root {
+    /* Navy Theme Colors - Adjusted slightly for a softer feel fitting the target */
+    --primary-navy: #001f3f;       /* Deep Navy */
+    --secondary-navy: #003366;     /* Slightly Lighter Navy */
+    --accent-blue: #3498db;        /* Vibrant Accent Blue */
+    --accent-blue-light: #e1f0fa;  /* Light accent blue for backgrounds */
+    --text-color-dark: #2c3e50;    /* Dark Text (almost black) */
+    --text-color-muted: #7f8c8d;   /* Muted Grey Text */
+    --text-color-light: #f8f9fa;   /* Very Light Text */
+    --light-bg: #f5f7fa;           /* Soft Blue-Grey Background (used in dashboard/availability common) */
+    --white-bg: #ffffff;           /* Pure White for Cards */
+    --border-radius: 12px;         /* More pronounced rounded corners */
+    --input-border: #bdc3c7;       /* Subtle Border Color */
+    --shadow-subtle: rgba(0, 0, 0, 0.08) 0px 4px 12px; /* Subtle shadow */
+    --shadow-card: rgba(0, 31, 63, 0.1) 0px 6px 20px;  /* Card shadow with navy tint */
+    --gradient-primary: linear-gradient(135deg, var(--primary-navy), var(--secondary-navy)); /* Gradient for elements */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-color-dark);
+    min-height: 100vh; /* Added for sticky footer */
+    display: flex; /* Added for sticky footer */
+    flex-direction: column; /* Added for sticky footer */
+    /* Add padding-top if you have a fixed navbar */
+    /* padding-top: 70px; */
+}
+
+/* Common Navbar Style */
+.navbar-theme {
+    background: var(--gradient-primary);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0.75rem 0;
+}
+
+.navbar-theme .navbar-brand {
+    color: var(--text-color-light);
+    font-weight: 700;
+    font-size: 1.4rem;
+    padding-left: 0.5rem;
+    border-left: 3px solid var(--accent-blue);
+}
+
+.navbar-theme .nav-link {
+    color: var(--text-color-light);
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.navbar-theme .nav-link:hover {
+    color: var(--accent-blue-light);
+}
+
+.navbar-theme .nav-link.active {
+    color: var(--accent-blue);
+    font-weight: 600;
+}
+
+.navbar-theme .nav-link.active:after {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 3px;
+    background-color: var(--accent-blue);
+    bottom: 0;
+    left: 20%;
+    border-radius: 2px;
+}
+
+/* Common Footer Style (using the dashboard structure) */
+.footer-theme {
+    background: var(--gradient-primary);
+    color: var(--text-color-light);
+    padding: 2rem 0;
+    margin-top: auto; /* Pushes footer to the bottom */
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px; /* Ensures columns don't get too small */
+}
+
+.footer-column h5 {
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: var(--accent-blue);
+    position: relative;
+    padding-bottom: 0.75rem;
+}
+
+.footer-column h5::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent-blue);
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--text-color-light);
+}
+
+.footer-social a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    transition: color 0.2s ease;
+}
+
+.footer-social a:hover {
+    color: var(--accent-blue);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9em;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+
+/* Common Card Styling */
+.card {
+    border-radius: var(--border-radius);
+    border: none;
+    margin-bottom: 25px;
+    background-color: var(--white-bg);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 31, 63, 0.15) 0px 10px 25px;
+}
+
+.card-header-dashboard {
+    background-color: var(--white-bg);
+    color: var(--text-color-dark);
+    border-bottom: 1px solid rgba(189, 195, 199, 0.3);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header-dashboard h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--secondary-navy);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.card-header-dashboard h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--secondary-navy);
+    /* Keep icon gap if needed */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+
+.card-header-dashboard i {
+    color: var(--accent-blue);
+}
+
+.card-body {
+    padding: 1.75rem;
+}
+
+/* Common Button Styling */
+.btn {
+    border-radius: 8px; /* Using the radius from common dashboard buttons */
+    transition: all 0.3s ease;
+    font-weight: 600; /* Using the weight from common dashboard buttons */
+    padding: 0.75rem 1.5rem; /* Using the padding from common dashboard buttons */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    /* Align icon and text if used */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-sm { /* Common small button style */
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+}
+
+.btn-theme-primary {
+    background-color: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: var(--text-color-light);
+}
+
+.btn-theme-primary:hover {
+    background-color: var(--secondary-navy);
+    border-color: var(--secondary-navy);
+    color: var(--text-color-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-outline-danger {
+    color: #e74c3c;
+    border: 2px solid #e74c3c;
+    background: transparent;
+}
+
+.btn-outline-danger:hover {
+    color: var(--text-color-light);
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+}
+
+.btn-outline-secondary {
+    color: var(--secondary-navy);
+    border: 2px solid var(--secondary-navy);
+    background: transparent;
+}
+
+.btn-outline-secondary:hover {
+    color: var(--text-color-light);
+    background-color: var(--secondary-navy);
+    border-color: var(--secondary-navy);
+    transform: translateY(-2px);
+}
+
+/* Common Form Labels */
+.form-label {
+    font-weight: 600; /* Using the weight from common */
+    color: var(--text-color-dark); /* Using common variable */
+    margin-bottom: 0.5rem; /* Using the margin from common */
+    font-size: 0.95rem; /* Using the size from common */
+}
+
+/* Common Form Controls */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid var(--input-border);
+    background-color: var(--white-bg);
+    color: var(--text-color-dark);
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+    background-color: #fff;
+}
+
+.form-text {
+    color: var(--text-color-muted);
+    font-size: 0.85rem;
+}
+
+/* Common Input Group Styling */
+.input-group {
+    border-radius: 8px; /* Match form control radius */
+    overflow: hidden; /* Clip contents for rounded corners */
+    display: flex;
+    align-items: stretch; /* Ensure items stretch to fill height */
+}
+
+.input-group .input-group-text {
+    border-radius: 8px 0 0 8px; /* Rounded left side only */
+    background-color: var(--secondary-navy); /* Themed background */
+    color: var(--text-color-light); /* Light text */
+    border-color: var(--secondary-navy); /* Themed border */
+    padding: 0.75rem 1rem; /* Match form control padding */
+    font-weight: 600;
+    flex-shrink: 0; /* Prevent text from shrinking */
+}
+
+.input-group .form-control,
+.input-group .form-select {
+    /* Remove left border radius for the form control/select inside the group */
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    flex-grow: 1; /* Allow the input to grow */
+}
+
+
+/* Common Alert Styling */
+.alert {
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-subtle);
+    margin-bottom: 25px;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+/* Specific Alert Colors (Override Bootstrap defaults) */
+.alert-danger {
+    background-color: #fde8e8; /* Lighter red background */
+    color: #c53030; /* Darker red text */
+    border-left: 4px solid #e53e3e; /* Accent border */
+}
+
+.alert-success {
+    background-color: #e9fce1; /* Lighter green background */
+    color: #2f855a; /* Darker green text */
+    border-left: 4px solid #48bb78; /* Accent border */
+}
+
+.alert-warning { /* Added warning style based on your embedded CSS usage */
+    background-color: #fff8e1; /* Lighter yellow background */
+    color: #d69e2e; /* Darker yellow text */
+    border-left: 4px solid #f6e05e; /* Accent border */
+}
+
+.alert-info { /* Added info style based on your embedded CSS usage */
+    background-color: #ebf8ff; /* Lighter blue background */
+    color: #2c5282; /* Darker blue text */
+    border-left: 4px solid #3182ce; /* Accent border */
+}
+
+
+/* Table Styling (General) */
+.table thead th {
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    font-weight: 600;
+    color: var(--secondary-navy);
+    padding: 1rem 0.75rem;
+    border-top: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--accent-blue-light);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(52, 152, 219, 0.1); /* Uses common variables */
+}
+
+.table td {
+    padding: 1rem 0.75rem; /* Keep consistent padding unless overridden */
+    vertical-align: middle;
+}
+
+
+/* Common Text Colors */
+.text-primary-theme {
+    color: var(--primary-navy) !important;
+}
+
+.text-secondary-theme {
+    color: var(--secondary-navy) !important;
+}
+
+.text-accent-theme {
+    color: var(--accent-blue) !important;
+}
+
+.text-muted {
+    color: var(--text-color-muted) !important;
+}
+
+/* Common Badge Styling (General - specific statuses will override) */
+.badge {
+    border-radius: 6px;
+    padding: 0.5em 0.8em;
+    font-weight: 600;
+    font-size: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Specific Appointment Status Badges */
+.badge-status-confirmed {
+    background-color: var(--accent-blue) !important;
+    color: var(--text-color-light);
+}
+.badge-status-pending {
+    background-color: #f39c12 !important; /* Keep orange for pending */
+    color: var(--text-color-light);
+}
+.badge-status-completed {
+    background-color: var(--secondary-navy) !important; /* Use secondary navy for completed */
+    color: var(--text-color-light);
+}
+/* ADDED: Style for CANCELLED status badge */
+.badge-status-cancelled {
+    background-color: #95a5a6 !important; /* Muted grey */
+    color: var(--text-color-light) !important; /* White text */
+}
+/* If there's an 'UNKNOWN' status, ensure it's visible too */
+.badge-status-unknown {
+    background-color: #7f8c8d !important; /* A slightly darker muted grey */
+    color: var(--text-color-light) !important;
+}
+
+/* Common layout class */
+.main-content {
+    flex: 1; /* Allows content area to grow */
+    padding: 2rem 0;
+}
+
+/* Common Page Heading Styles */
+/* This style applies to the main <h1> tag on pages */
+/* This specific client profile page uses .page-header instead */
+/* Kept here for consistency with other pages */
+.page-heading {
+    margin-top: 10px;
+    margin-bottom: 30px !important;
+}
+
+.page-heading h1 {
+    font-size: 2.5rem; /* Larger heading */
+    font-weight: 700; /* Bold */
+    color: var(--secondary-navy); /* Using common variable */
+}
+
+/* Common responsive behavior */
+@media (max-width: 767.98px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-column { /* Center align columns on small screens */
+        text-align: center;
+    }
+    .footer-column h5::after { /* Center the underline on small screens */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .footer-links { /* Center align list items */
+        padding: 0;
+    }
+    .footer-links li {
+        display: block; /* Stack list items */
+        margin-bottom: 0.5rem; /* Space between stacked items */
+    }
+    .navbar-theme .nav-link.active:after { /* Center active indicator on mobile */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
